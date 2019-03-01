@@ -13,14 +13,24 @@ class WatcherTests: XCTestCase {
     }
 
     let url = URL(fileURLWithPath: TestFile.file())
+    let lineBreak = "\n"
+    
     func read() throws -> String {
         return try String(contentsOf: url)
     }
+    func write(_ content: String) throws {
+        try content.write(to: url, atomically: true, encoding: .utf8)
+    }
+    
     func testExample() throws {
         let originalContent = try read()
-        try (originalContent + "\n").write(to: url, atomically: true, encoding: .utf8)
-        
+        try write(originalContent + lineBreak)
         XCTAssertNotEqual(originalContent, try read())
+        
+        var addedLineBreakContent = try read()
+        addedLineBreakContent.removeLast(lineBreak.count)
+        try write(addedLineBreakContent)
+        XCTAssertEqual(originalContent, try read())
     }
     
     func testPerformanceExample() {
