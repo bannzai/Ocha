@@ -58,6 +58,7 @@ class Utility: XCTestCase {
         var addedLineBreakContent = try read()
         addedLineBreakContent.removeLast(lineBreak.count)
         try write(addedLineBreakContent)
+        XCTAssertNotEqual(addedLineBreakContent, originalContent + lineBreak)
         XCTAssertEqual(originalContent, try read())
     }
 }
