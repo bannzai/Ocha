@@ -49,10 +49,10 @@ public class Watcher {
 }
 
 
-@objc open class FileEvent : NSObject {
-    open var id: UInt64
-    open var flag: UInt32
-    open var path: Pathable
+public final class FileEvent : NSObject {
+    public var id: UInt64
+    public var flag: UInt32
+    public var path: Pathable
 
     public init(
         id: UInt64,
