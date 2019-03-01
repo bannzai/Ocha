@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+public struct TestFile {
+    static func file() -> String {
+        return #file
+    }
+}
