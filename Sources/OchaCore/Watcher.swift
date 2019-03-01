@@ -13,7 +13,15 @@ public class Watcher {
     private let paths: [String]
     private lazy var stream: FSEventStreamRef = {
         var context = FSEventStreamContext(version: 0, info: UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque()), retain: nil, release: nil, copyDescription: nil)
-        let stream = FSEventStreamCreate(kCFAllocatorDefault, _callback, &context, paths as CFArray, FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 0, UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents))!
+        let stream = FSEventStreamCreate(
+            kCFAllocatorDefault,
+            _callback,
+            &context,
+            paths as CFArray,
+            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+            0,
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+            )!
         return stream
     }()
     
