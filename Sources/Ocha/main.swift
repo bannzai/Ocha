@@ -1,9 +1,10 @@
 import Foundation
 import OchaCore
 
-print("Hello, world!")
+let file = #file
+print("Hello, world!: \(file)")
 
-let watcher = Watcher(paths: [#file])
+let watcher = Watcher(paths: [file])
 watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
