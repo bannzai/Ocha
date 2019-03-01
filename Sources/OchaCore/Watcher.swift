@@ -28,7 +28,7 @@ public class Watcher {
         self.paths = paths.map { $0.pathForWatching().absoluteString }
     }
     
-    public var callback: CallBack?
+    private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
         FSEventStreamScheduleWithRunLoop(stream, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
