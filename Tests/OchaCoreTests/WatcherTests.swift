@@ -23,10 +23,10 @@ class WatcherTests: XCTestCase {
         let ext = self.expectation(description: #function)
         watcher.start({ (events) in
             XCTAssertEqual(events.count, 1)
-//            ext.fulfill()
+            ext.fulfill()
         })
         
-        try utility.write(try utility.read() + "hoge")
+        try utility.write(try utility.read() + " ")
         
         wait(for: [ext], timeout: 0.1)
     }
