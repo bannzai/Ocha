@@ -9,7 +9,7 @@ import Foundation
 
 public typealias CallBack = (URL) -> Void
 public class Presenter: NSObject, NSFilePresenter {
-    public var presentedItemURL: URL?
+    public let presentedItemURL: URL?
     public let presentedItemOperationQueue: OperationQueue = .main
     
     internal var callback: CallBack?
@@ -18,22 +18,7 @@ public class Presenter: NSObject, NSFilePresenter {
         self.presentedItemURL = presentedItemURL
     }
     
-//    public func presentedItemDidChange() {
-//        print(#function)
-//    }
-    
-    public func presentedSubitemDidChange(at url: URL) {
-        print(#function)
-        callback?(url)
-    }
-    
-    public func presentedItemDidChangeUbiquityAttributes(_ attributes: Set<URLResourceKey>) {
-        print(#function)
-        print(attributes)
-    }
-    
     public func presentedItemDidGain(_ version: NSFileVersion) {
-        print(#function)
         print(version)
     }
 }
