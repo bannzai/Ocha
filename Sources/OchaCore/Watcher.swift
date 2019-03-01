@@ -24,8 +24,8 @@ public class Watcher {
         watcher.callback?(fileEvents)
     }
     
-    public init(paths: [String]) {
-        self.paths = paths
+    public init(paths: [Pathable]) {
+        self.paths = paths.map { $0.pathForWatching().absoluteString }
     }
     
     public var callback: CallBack?
