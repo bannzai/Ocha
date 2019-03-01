@@ -7,22 +7,6 @@
 
 import Foundation
 
-public protocol Pathable {
-    func pathForWatching() -> URL
-}
-
-extension URL: Pathable {
-    public func pathForWatching() -> URL {
-        return self
-    }
-}
-
-extension String: Pathable {
-    public func pathForWatching() -> URL {
-        return URL(fileURLWithPath: self)
-    }
-}
-
 public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
