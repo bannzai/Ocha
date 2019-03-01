@@ -6,31 +6,29 @@
 //
 
 import XCTest
+@testable import OchaCore
+
+private let url = URL(fileURLWithPath: TestFile.file())
+private let lineBreak = "\n"
 
 class WatcherTests: XCTestCase {
 
     override func setUp() {
     }
 
-    let url = URL(fileURLWithPath: TestFile.file())
-    let lineBreak = "\n"
-    
-    func read() throws -> String {
-        return try String(contentsOf: url)
-    }
-    func write(_ content: String) throws {
-        try content.write(to: url, atomically: true, encoding: .utf8)
-    }
-    
     func testConfirmUtilityFunction() throws {
-        let originalContent = try read()
-        try write(originalContent + lineBreak)
-        XCTAssertNotEqual(originalContent, try read())
+        let utility = Utility()
+        let watcher = Watcher(paths: [url])
+
+        let ext = self.expectation(description: #function)
+        watcher.start({ (events) in
+            XCTAssertEqual(events.count, 1)
+//            ext.fulfill()
+        })
         
-        var addedLineBreakContent = try read()
-        addedLineBreakContent.removeLast(lineBreak.count)
-        try write(addedLineBreakContent)
-        XCTAssertEqual(originalContent, try read())
+        try utility.write(try utility.read() + "hoge")
+        
+        wait(for: [ext], timeout: 0.1)
     }
     
     func testPerformanceExample() {
@@ -39,4 +37,27 @@ class WatcherTests: XCTestCase {
         }
     }
 
+}
+
+class Utility: XCTestCase {
+
+    func read() throws -> String {
+        return try String(contentsOf: url)
+    }
+    
+    func write(_ content: String) throws {
+        try content.write(to: url, atomically: true, encoding: .utf8)
+    }
+    
+    func testUtilityFunctions() throws {
+        let originalContent = try read()
+        try write(originalContent + lineBreak)
+        XCTAssertNotEqual(originalContent, try read())
+        XCTAssertEqual(originalContent + lineBreak, try read())
+
+        var addedLineBreakContent = try read()
+        addedLineBreakContent.removeLast(lineBreak.count)
+        try write(addedLineBreakContent)
+        XCTAssertEqual(originalContent, try read())
+    }
 }
