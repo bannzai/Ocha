@@ -22,7 +22,7 @@ class WatcherTests: XCTestCase {
         try content.write(to: url, atomically: true, encoding: .utf8)
     }
     
-    func testExample() throws {
+    func testConfirmUtilityFunction() throws {
         let originalContent = try read()
         try write(originalContent + lineBreak)
         XCTAssertNotEqual(originalContent, try read())
