@@ -7,40 +7,30 @@
 
 import Foundation
 
+public class Presenter: NSObject, NSFilePresenter {
+    public var presentedItemURL: URL?
+    public let presentedItemOperationQueue: OperationQueue = OperationQueue.main
+    
+    public func presentedItemDidChange() {
+        print(#function)
+    }
+}
+
 public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
     private let paths: [String]
-    private lazy var stream: FSEventStreamRef = {
-        var context = FSEventStreamContext(version: 0, info: UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque()), retain: nil, release: nil, copyDescription: nil)
-        let stream = FSEventStreamCreate(
-            kCFAllocatorDefault,
-            _callback,
-            &context,
-            paths as CFArray,
-            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-            0,
-            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
-            )!
-        return stream
-    }()
-    
-    private let _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
-        let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
-        let paths = unsafeBitCast(eventPaths, to: [String].self)
-        let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
-        watcher.callback?(fileEvents)
-    }
-    
+
     public init(paths: [Pathable]) {
         self.paths = paths.map { $0.pathForWatching().absoluteString }
+        self.presenter.presentedItemURL = paths[0].pathForWatching()
     }
     
     private var callback: CallBack?
+    private var presenter: Presenter = Presenter()
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
-        FSEventStreamScheduleWithRunLoop(stream, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
-        FSEventStreamStart(stream)
+        NSFileCoordinator.addFilePresenter(presenter)
     }
     
     public func release() {
@@ -48,10 +38,9 @@ public class Watcher {
     }
     
     public func stop() {
-        FSEventStreamStop(stream)
+        
     }
     
     public func resume() {
-        FSEventStreamStart(stream)
     }
 }
