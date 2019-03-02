@@ -71,9 +71,10 @@ public struct EventSet: OptionSet {
     @available(OSX 10.13, *)
     public static let itemCloned = EventSet(rawValue: kFSEventStreamEventFlagItemCloned) // 4194304
     
-    
     public static let xcodeFileAddedFirstEventSet: EventSet = [.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile]
     public static let xcodeFileAddedSecondEventSet: EventSet = [.itemRenamed, .itemIsFile]
+    
+    public static let newFileEvent: EventSet = [.itemCreated, .itemIsFile]
 }
 
 extension EventSet: CaseIterable {
