@@ -25,7 +25,7 @@ public class Watcher {
         return stream
     }()
     
-    private let _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
+    private var _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
         let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
         let paths = unsafeBitCast(eventPaths, to: [String].self)
         let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
@@ -40,6 +40,8 @@ public class Watcher {
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
         FSEventStreamScheduleWithRunLoop(stream, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
+        let queue: DispatchQueue = .global()
+        FSEventStreamSetDispatchQueue(stream, queue)
         FSEventStreamStart(stream)
     }
     
