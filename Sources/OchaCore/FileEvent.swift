@@ -49,7 +49,7 @@ extension Array where Element == FileEvent {
         }
         
         let temporaryFile = self[0]
-        if !temporaryFile.path.contains("/.dat.") {
+        if !temporaryFile.path.contains(".dat.") {
             return false
         }
         if !temporaryFile.flag.contains([.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile]) {
