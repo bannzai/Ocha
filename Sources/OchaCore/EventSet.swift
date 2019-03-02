@@ -38,7 +38,44 @@ import Foundation
 //}
 
 
-public struct EventSet: OptionSet {
+public struct EventSet: OptionSet, CaseIterable {
+    public static var baseAllCases: [EventSet] {
+        return [
+            .none,
+            .mustScanSubDirs,
+            .userDropped,
+            .kernelDropped,
+            .eventIdsWrapped,
+            .historyDone,
+            .rootChanged,
+            .mount,
+            .unmount,
+            .itemCreated,
+            .itemRemoved,
+            .itemInodeMetaMod,
+            .itemRenamed,
+            .itemModified,
+            .itemFinderInfoMod,
+            .itemChangeOwner,
+            .itemXattrMod,
+            .itemIsFile,
+            .itemIsDir,
+            .itemIsSymlink,
+            .ownEvent,
+            .itemIsHardlink,
+            .itemIsLastHardlink,
+        ]
+    }
+    public static var allCases: [EventSet] {
+        if #available(OSX 10.13, *) {
+            return baseAllCases + [itemCloned]
+        } else {
+            return baseAllCases
+        }
+    }
+    
+    public typealias AllCases = [EventSet]
+    
     public let rawValue: Int
     public typealias RawValue = Int
     public init(rawValue: RawValue) {
