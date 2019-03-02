@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class FileEvent : NSObject {
+public final class FileEvent: NSObject {
     public var id: UInt64
     public var flag: EventSet
     public var path: String
@@ -20,5 +20,19 @@ public final class FileEvent : NSObject {
         self.id = id
         self.flag = EventSet(rawValue: flag)
         self.path = path
+    }
+}
+
+extension FileEvent {
+    public override var debugDescription: String {
+        return """
+        FileEvent {
+            type: \(type(of: self))
+            address: \(Unmanaged.passUnretained(self).toOpaque())
+            id: \(id),
+            flag: \(flag),
+            path: \(path),
+        }
+        """
     }
 }
