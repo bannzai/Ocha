@@ -21,11 +21,14 @@ class WatcherTests: XCTestCase {
             ext.fulfill()
         })
         
-        try utility.write(try utility.read() + " ")
+        let originalContent = try utility.read()
+        try utility.write(originalContent + " ")
         
         wait(for: [ext], timeout: 1)
         
         watcher.stop()
         watcher.release()
+        
+        try utility.write(originalContent)
     }
 }
