@@ -34,7 +34,7 @@ public class Watcher {
             return
         }
         if numEvents > 0 {
-            let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
+            let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
             fileEvents.forEach { print("$0: \($0)") }
             watcher.callback?(fileEvents)
         }
