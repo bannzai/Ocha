@@ -8,7 +8,7 @@
 import XCTest
 @testable import OchaCore
 
-private let url = URL(fileURLWithPath: TestFile.file())
+private let testURL = URL(fileURLWithPath: TestFile.file())
 private let lineBreak = "\n"
 
 class WatcherTests: XCTestCase {
@@ -18,16 +18,14 @@ class WatcherTests: XCTestCase {
 
     func testConfirmUtilityFunction() throws {
         let utility = Utility()
-        let watcher = Watcher(paths: [url])
+        let watcher = Watcher(paths: [testURL])
 
         let ext = self.expectation(description: #function)
-        watcher.start({ (events) in
-            XCTAssertEqual(events.count, 1)
+        watcher.start({ (url) in
+            XCTAssertEqual(testURL, url)
             ext.fulfill()
         })
-        
         try utility.write(try utility.read() + " ")
-        
         wait(for: [ext], timeout: 0.1)
     }
     
@@ -42,11 +40,11 @@ class WatcherTests: XCTestCase {
 class Utility: XCTestCase {
 
     func read() throws -> String {
-        return try String(contentsOf: url)
+        return try String(contentsOf: testURL)
     }
     
     func write(_ content: String) throws {
-        try content.write(to: url, atomically: true, encoding: .utf8)
+        try content.write(to: testURL, atomically: true, encoding: .utf8)
     }
     
     func testUtilityFunctions() throws {
