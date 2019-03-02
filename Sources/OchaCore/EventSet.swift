@@ -74,9 +74,13 @@ public struct EventSet: OptionSet {
     public static let xcodeFileAddedFirstEventSet: EventSet = [.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile]
     public static let xcodeFileAddedSecondEventSet: EventSet = [.itemRenamed, .itemIsFile]
     
-    public static let newFileEvent: EventSet = [.itemCreated, .itemIsFile]
-    public static let removeFileEvent: EventSet = [.itemRemoved, .itemIsFile]
-    public static let trashFileEvent: EventSet = [.itemRenamed, .itemIsFile] // e.g) Command + DEL. If you use in machintosh
+    public static let createdFile: EventSet = [.itemCreated, .itemIsFile]
+    public static let removedFile: EventSet = [.itemRemoved, .itemIsFile]
+    public static let trashedFile: EventSet = [.itemRenamed, .itemIsFile] // e.g) Command + DEL. If you use in machintosh
+    
+    public static let createdDirectory: EventSet = [.itemCreated, .itemIsDir]
+    public static let removedDirectory: EventSet = [.itemRemoved, .itemIsDir]
+    public static let trashedDirectory: EventSet = [.itemRenamed, .itemIsDir] // e.g) Command + DEL. If you use in machintosh
 
 }
 
