@@ -36,3 +36,26 @@ extension FileEvent {
         """
     }
 }
+
+extension Array where Element == FileEvent {
+    func isAddedFileInXcodeEvent() -> Bool {
+        guard count == 2 else {
+            return false
+        }
+        
+        let temporaryFile = self[0]
+        if !temporaryFile.path.contains("/.dat.") {
+            return false
+        }
+        if !temporaryFile.flag.contains([.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile]) {
+            return false
+        }
+
+        let renamedFromTemporaryFile = self[1]
+        if !renamedFromTemporaryFile.flag.contains([.itemRenamed, .itemIsFile]) {
+            return false
+        }
+        
+        return true
+    }
+}
