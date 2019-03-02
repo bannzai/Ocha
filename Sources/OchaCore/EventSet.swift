@@ -73,6 +73,12 @@ public struct EventSet: OptionSet {
     
 }
 
+extension EventSet: Equatable {
+    public static func == (lhs: EventSet, rhs: EventSet) -> Bool {
+        return lhs.rawValue == rhs.rawValue
+    }
+}
+
 //kFSEventStreamEventFlagNone: 0
 //kFSEventStreamEventFlagMustScanSubDirs: 1
 //kFSEventStreamEventFlagUserDropped: 2
