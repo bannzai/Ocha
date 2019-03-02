@@ -13,6 +13,7 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/kareman/SwiftShell.git", from: Version(4, 1, 2)),
+        .package(url: "https://github.com/kylef/PathKit.git", from: Version(0, 9, 2)),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -22,7 +23,7 @@ let package = Package(
             dependencies: ["OchaCore"]),
         .target(
             name: "OchaCore",
-            dependencies: ["SwiftShell"]),
+            dependencies: ["SwiftShell", "PathKit"]),
         .testTarget(
             name: "OchaCoreTests",
             dependencies: ["OchaCore"]),

@@ -1,6 +1,7 @@
 import Foundation
 import OchaCore
 import SwiftShell
+import PathKit
 
 
 //do {
@@ -13,14 +14,15 @@ import SwiftShell
 //    }
 //}
 
-let file = "file://Users/hiroseyuudai/develop/oss/Ocha/Sources/ocha/"
+let path = Path("/Users/hiroseyuudai/develop/oss/Ocha/Sources/Ocha")
+let file = path.absolute().string
+print("exists: \(path.exists)")
 print("Hello, world!: \(file)")
 let watcher = Watcher(paths: [file])
 watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
 }
-
 
 let (writableStream, readableStream) = SwiftShell.streams()
 class Container {
@@ -37,7 +39,7 @@ class Container {
                 else {
                     return
             }
-            
+
             let data = handle.readDataToEndOfFile()
             
             DispatchQueue.main.async {
@@ -56,10 +58,10 @@ class Container {
     }
 }
 
+
 //Container().launch()
 
-RunLoop.main.run()
+RunLoop.current.run()
 print("Process End")
-
 
 
