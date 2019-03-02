@@ -11,10 +11,8 @@ public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
     private let paths: [String]
-    var stored: Watcher!
-    lazy var context = FSEventStreamContext(version: 0, info: &stored, retain: nil, release: nil, copyDescription: nil)
     private lazy var stream: FSEventStreamRef = {
-        stored = self
+        var context = FSEventStreamContext(version: 0, info: UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque()), retain: nil, release: nil, copyDescription: nil)
         let stream = FSEventStreamCreate(
             kCFAllocatorDefault,
             _callback,
