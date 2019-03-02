@@ -7,37 +7,6 @@
 
 import Foundation
 
-
-//print("kFSEventStreamEventFlagNone: \(kFSEventStreamEventFlagNone)")
-//print("kFSEventStreamEventFlagMustScanSubDirs: \(kFSEventStreamEventFlagMustScanSubDirs)")
-//print("kFSEventStreamEventFlagUserDropped: \(kFSEventStreamEventFlagUserDropped)")
-//print("kFSEventStreamEventFlagKernelDropped: \(kFSEventStreamEventFlagKernelDropped)")
-//print("kFSEventStreamEventFlagEventIdsWrapped: \(kFSEventStreamEventFlagEventIdsWrapped)")
-//print("kFSEventStreamEventFlagHistoryDone: \(kFSEventStreamEventFlagHistoryDone)")
-//print("kFSEventStreamEventFlagRootChanged: \(kFSEventStreamEventFlagRootChanged)")
-//print("kFSEventStreamEventFlagMount: \(kFSEventStreamEventFlagMount)")
-//print("kFSEventStreamEventFlagUnmount: \(kFSEventStreamEventFlagUnmount)")
-//print("kFSEventStreamEventFlagItemCreated: \(kFSEventStreamEventFlagItemCreated)")
-//print("kFSEventStreamEventFlagItemRemoved: \(kFSEventStreamEventFlagItemRemoved)")
-//print("kFSEventStreamEventFlagItemInodeMetaMod: \(kFSEventStreamEventFlagItemInodeMetaMod)")
-//print("kFSEventStreamEventFlagItemRenamed: \(kFSEventStreamEventFlagItemRenamed)")
-//print("kFSEventStreamEventFlagItemModified: \(kFSEventStreamEventFlagItemModified)")
-//print("kFSEventStreamEventFlagItemFinderInfoMod: \(kFSEventStreamEventFlagItemFinderInfoMod)")
-//print("kFSEventStreamEventFlagItemChangeOwner: \(kFSEventStreamEventFlagItemChangeOwner)")
-//print("kFSEventStreamEventFlagItemXattrMod: \(kFSEventStreamEventFlagItemXattrMod)")
-//print("kFSEventStreamEventFlagItemIsFile: \(kFSEventStreamEventFlagItemIsFile)")
-//print("kFSEventStreamEventFlagItemIsDir: \(kFSEventStreamEventFlagItemIsDir)")
-//print("kFSEventStreamEventFlagItemIsSymlink: \(kFSEventStreamEventFlagItemIsSymlink)")
-//print("kFSEventStreamEventFlagOwnEvent: \(kFSEventStreamEventFlagOwnEvent)")
-//print("kFSEventStreamEventFlagItemIsHardlink: \(kFSEventStreamEventFlagItemIsHardlink)")
-//print("kFSEventStreamEventFlagItemIsLastHardlink: \(kFSEventStreamEventFlagItemIsLastHardlink)")
-//if #available(OSX 10.13, *) {
-//    print("kFSEventStreamEventFlagItemCloned: \(kFSEventStreamEventFlagItemCloned)")
-//} else {
-//    // Fallback on earlier versions
-//}
-
-
 public struct EventSet: OptionSet {
     public let rawValue: Int
     public typealias RawValue = Int
@@ -77,11 +46,11 @@ public struct EventSet: OptionSet {
     public static let createdFile: EventSet = [.itemCreated, .itemIsFile]
     public static let removedFile: EventSet = [.itemRemoved, .itemIsFile]
     public static let trashedFile: EventSet = [.itemRenamed, .itemIsFile] // e.g) Command + DEL. If you use in machintosh
+    public static let openedFile: EventSet = [.itemXattrMod, .itemIsFile]
     
     public static let createdDirectory: EventSet = [.itemCreated, .itemIsDir]
     public static let removedDirectory: EventSet = [.itemRemoved, .itemIsDir]
     public static let trashedDirectory: EventSet = [.itemRenamed, .itemIsDir] // e.g) Command + DEL. If you use in machintosh
-
 }
 
 extension EventSet: CaseIterable {
@@ -174,30 +143,3 @@ extension EventSet: Equatable {
         return lhs.rawValue == rhs.rawValue
     }
 }
-
-//kFSEventStreamEventFlagNone: 0
-//kFSEventStreamEventFlagMustScanSubDirs: 1
-//kFSEventStreamEventFlagUserDropped: 2
-//kFSEventStreamEventFlagKernelDropped: 4
-//kFSEventStreamEventFlagEventIdsWrapped: 8
-//kFSEventStreamEventFlagHistoryDone: 16
-//kFSEventStreamEventFlagRootChanged: 32
-//kFSEventStreamEventFlagMount: 64
-//kFSEventStreamEventFlagUnmount: 128
-//kFSEventStreamEventFlagItemCreated: 256
-//kFSEventStreamEventFlagItemRemoved: 512
-//kFSEventStreamEventFlagItemInodeMetaMod: 1024
-//kFSEventStreamEventFlagItemRenamed: 2048
-//kFSEventStreamEventFlagItemModified: 4096
-//kFSEventStreamEventFlagItemFinderInfoMod: 8192
-//kFSEventStreamEventFlagItemChangeOwner: 16384
-//kFSEventStreamEventFlagItemXattrMod: 32768
-//kFSEventStreamEventFlagItemIsFile: 65536
-//kFSEventStreamEventFlagItemIsDir: 131072
-//kFSEventStreamEventFlagItemIsSymlink: 262144
-//kFSEventStreamEventFlagOwnEvent: 524288
-//kFSEventStreamEventFlagItemIsHardlink: 1048576
-//kFSEventStreamEventFlagItemIsLastHardlink: 2097152
-//kFSEventStreamEventFlagItemCloned: 4194304
-//
-//
