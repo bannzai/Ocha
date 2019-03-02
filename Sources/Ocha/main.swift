@@ -18,8 +18,7 @@ let path = Path("/Users/hiroseyuudai/develop/oss/Ocha/Sources/Ocha")
 let file = path.absolute().string
 print("exists: \(path.exists)")
 print("Hello, world!: \(file)")
-let watcher = Watcher.instance
-watcher.paths = [file]
+let watcher = Watcher(paths: [file])
 watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
