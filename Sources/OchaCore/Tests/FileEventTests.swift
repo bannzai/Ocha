@@ -28,9 +28,9 @@ class FileEventArrayTests: XCTestCase {
             }
             
             XCTContext.runActivity(named: "When first element has xcode temporary file events", block: { (_)  in
-                let firstElement = firstElementFactory([EventSet.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile])
+                let firstElement = firstElementFactory(.xcodeFileAddedFirstEventSet)
                 XCTContext.runActivity(named: "And second element renamed file element.", block: { (_) in
-                    let secondElement = secondElementFactory([.itemRenamed, .itemIsFile])
+                    let secondElement = secondElementFactory(.xcodeFileAddedSecondEventSet)
                     XCTAssertTrue([firstElement, secondElement].isAddedFileInXcodeEvent())
                 })
                 
@@ -42,7 +42,7 @@ class FileEventArrayTests: XCTestCase {
             
             XCTContext.runActivity(named: "When first element does not have xcode temporary file events", block: { (_) in
                 let firstElement = firstElementFactory(.none)
-                let secondElement = secondElementFactory([.itemRenamed, .itemIsFile])
+                let secondElement = secondElementFactory(.xcodeFileAddedSecondEventSet)
                 XCTAssertFalse([firstElement, secondElement].isAddedFileInXcodeEvent())
             })
         }
