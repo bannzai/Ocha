@@ -75,7 +75,7 @@ public struct EventSet: OptionSet {
     public static let xcodeFileAddedSecondEventSet: EventSet = [.itemRenamed, .itemIsFile]
     
     public static let newFileEvent: EventSet = [.itemCreated, .itemIsFile]
-    public static let removeFileEvent: EventSet = [.itemRemoved, .itemIsFile] // FIXME: when rm -rf hoge.swift, I got .itemCreated. But ignoring it because it is cryptic.
+    public static let removeFileEvent: EventSet = [.itemRemoved, .itemIsFile]
 
 }
 

@@ -28,7 +28,7 @@ watcher.start { (events) in
     }
     events.forEach { event in
         print("------- path: \(event.path) --------")
-        print("cat: " + main.run(bash: "cat \(event.path)").stdout)
+//        print("cat: " + main.run(bash: "cat \(event.path)").stdout)
         EventSet.allCases.forEach { set in
             print("\(set): \(event.flag.contains(set))")
         }
