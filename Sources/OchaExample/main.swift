@@ -9,6 +9,10 @@ print("You can confirm for `Ocha` is watched file changes when edit and save thi
 let path = Path(#file)
 let pathString = path.absolute().string
 
+func hoge(fuga: String, piyo: Int) {
+    
+}
+
 func ragnarok() {
     do {
         let ragnarok = try RagnarokRewriter.init(path: pathString)
