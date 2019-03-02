@@ -22,6 +22,11 @@ let watcher = Watcher(paths: [file])
 watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
+    events.forEach { event in
+        print("itemIsFile: \(event.flag.contains(.itemIsFile))")
+        print("itemRenamed: \(event.flag.contains(.itemRenamed))")
+        print("historyDone: \(event.flag.contains(.historyDone))")
+    }
 }
 
 RunLoop.current.run()
