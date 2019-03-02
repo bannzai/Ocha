@@ -76,6 +76,7 @@ public struct EventSet: OptionSet {
     
     public static let newFileEvent: EventSet = [.itemCreated, .itemIsFile]
     public static let removeFileEvent: EventSet = [.itemRemoved, .itemIsFile]
+    public static let trashFileEvent: EventSet = [.itemRenamed, .itemIsFile] // e.g) Command + DEL. If you use in machintosh
 
 }
 
