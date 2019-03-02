@@ -38,8 +38,8 @@ public class Watcher {
     }
     
     private let paths: [String]
-    public init(paths: [String]) {
-        self.paths = paths
+    public init(paths: [WatchingPathable]) {
+        self.paths = paths.map { $0.watchingPath() }
     }
     
     private var callback: CallBack?
