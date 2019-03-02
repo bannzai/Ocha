@@ -38,6 +38,38 @@ import Foundation
 //}
 
 
+struct EventSet: OptionSet {
+    let rawValue: Int
+    typealias RawValue = Int
+    
+    static let none = EventSet(rawValue: kFSEventStreamEventFlagNone) // 0
+    static let mustScanSubDirs = EventSet(rawValue: kFSEventStreamEventFlagMustScanSubDirs) // 1
+    static let userDropped = EventSet(rawValue: kFSEventStreamEventFlagUserDropped) // 2
+    static let kernelDropped = EventSet(rawValue: kFSEventStreamEventFlagKernelDropped) // 4
+    static let eventIdsWrapped = EventSet(rawValue: kFSEventStreamEventFlagEventIdsWrapped) // 8
+    static let historyDone = EventSet(rawValue: kFSEventStreamEventFlagHistoryDone) // 16
+    static let rootChanged = EventSet(rawValue: kFSEventStreamEventFlagRootChanged) // 32
+    static let mount = EventSet(rawValue: kFSEventStreamEventFlagMount) // 64
+    static let unmount = EventSet(rawValue: kFSEventStreamEventFlagUnmount) // 128
+    static let itemCreated = EventSet(rawValue: kFSEventStreamEventFlagItemCreated) // 256
+    static let itemRemoved = EventSet(rawValue: kFSEventStreamEventFlagItemRemoved) // 512
+    static let itemInodeMetaMod = EventSet(rawValue: kFSEventStreamEventFlagItemInodeMetaMod) // 1024
+    static let itemRenamed = EventSet(rawValue: kFSEventStreamEventFlagItemRenamed) // 2048
+    static let itemModified = EventSet(rawValue: kFSEventStreamEventFlagItemModified) // 4096
+    static let itemFinderInfoMod = EventSet(rawValue: kFSEventStreamEventFlagItemFinderInfoMod) // 8192
+    static let itemChangeOwner = EventSet(rawValue: kFSEventStreamEventFlagItemChangeOwner) // 16384
+    static let itemXattrMod = EventSet(rawValue: kFSEventStreamEventFlagItemXattrMod) // 32768
+    static let itemIsFile = EventSet(rawValue: kFSEventStreamEventFlagItemIsFile) // 65536
+    static let itemIsDir = EventSet(rawValue: kFSEventStreamEventFlagItemIsDir) // 131072
+    static let itemIsSymlink = EventSet(rawValue: kFSEventStreamEventFlagItemIsSymlink) // 262144
+    static let ownEvent = EventSet(rawValue: kFSEventStreamEventFlagOwnEvent) // 524288
+    static let itemIsHardlink = EventSet(rawValue: kFSEventStreamEventFlagItemIsHardlink) // 1048576
+    static let itemIsLastHardlink = EventSet(rawValue: kFSEventStreamEventFlagItemIsLastHardlink) // 2097152
+    @available(OSX 10.13, *)
+    static let itemCloned = EventSet(rawValue: kFSEventStreamEventFlagItemCloned) // 4194304
+    
+}
+
 //kFSEventStreamEventFlagNone: 0
 //kFSEventStreamEventFlagMustScanSubDirs: 1
 //kFSEventStreamEventFlagUserDropped: 2
