@@ -7,39 +7,51 @@
 
 import Foundation
 
-public typealias CallBack = (URL) -> Void
-public class Presenter: NSObject, NSFilePresenter {
-    public let presentedItemURL: URL?
-    public let presentedItemOperationQueue: OperationQueue = .main
-    
-    internal var callback: CallBack?
-
-    internal init(presentedItemURL: URL) {
-        self.presentedItemURL = presentedItemURL
-    }
-    
-    public func presentedItemDidGain(_ version: NSFileVersion) {
-        callback?(presentedItemURL!)
-        print(#function)
-        print(version)
-    }
-}
-
 public class Watcher {
+    public typealias CallBack = ([FileEvent]) -> Void
+    
     private let paths: [String]
-    private let presenters: [Presenter]
+    private lazy var stream: FSEventStreamRef = {
+        var context = FSEventStreamContext(version: 0, info: UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque()), retain: nil, release: nil, copyDescription: nil)
+        let stream = FSEventStreamCreate(
+            kCFAllocatorDefault,
+            _callback,
+            &context,
+            paths as CFArray,
+            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+            0,
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+            )!
+        return stream
+    }()
+    
+    private let _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
+        let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
+        let paths = unsafeBitCast(eventPaths, to: [String].self)
+        let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
+        watcher.callback?(fileEvents)
+    }
     
     public init(paths: [Pathable]) {
         self.paths = paths.map { $0.pathForWatching().absoluteString }
-        self.presenters = paths
-            .map { $0.pathForWatching() }
-            .map(Presenter.init(presentedItemURL:))
     }
     
+    private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
-        presenters.forEach {
-            $0.callback = callback
-            NSFileCoordinator.addFilePresenter($0)
-        }
+        self.callback = callback
+        FSEventStreamScheduleWithRunLoop(stream, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
+        FSEventStreamStart(stream)
+    }
+    
+    public func release() {
+        callback = nil
+    }
+    
+    public func stop() {
+        FSEventStreamStop(stream)
+    }
+    
+    public func resume() {
+        FSEventStreamStart(stream)
     }
 }
