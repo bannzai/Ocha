@@ -14,6 +14,7 @@ import PathKit
 //    }
 //}
 
+
 let path = Path("/Users/hiroseyuudai/develop/oss/Ocha/Sources/Ocha")
 let file = path.absolute().string
 print("exists: \(path.exists)")
@@ -23,6 +24,8 @@ watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
     events.forEach { event in
+        print("------- path: \(event.path) --------")
+        main.run(bash: "cat \(event.path)")
         EventSet.allCases.forEach { set in
             print("\(set): \(event.flag.contains(set))")
         }
