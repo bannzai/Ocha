@@ -13,7 +13,7 @@ import SwiftShell
 //    }
 //}
 
-let file = "/Users/hiroseyuudai/develop/oss/Ocha/Sources/ocha/"
+let file = "file://Users/hiroseyuudai/develop/oss/Ocha/Sources/ocha/"
 print("Hello, world!: \(file)")
 let watcher = Watcher(paths: [file])
 watcher.start { (events) in
@@ -22,31 +22,44 @@ watcher.start { (events) in
 }
 
 
-let process = Process()
-let outputPipe = Pipe()
-outputPipe.fileHandleForReading.readabilityHandler = {
-    print($0)
-}
-process.launchPath = "/usr/bin/env"
-process.arguments = ["/usr/local/bin/direnv", "allow"]
-process.standardOutput = pipe
-process.terminationHandler = { process in
-    guard
-        let pipe = process.standardOutput as? Pipe,
-        let handle = Optional(pipe.fileHandleForReading)
-        else {
-            return
-    }
+let (writableStream, readableStream) = SwiftShell.streams()
+class Container {
+    lazy var process: Process = {
+        let process = Process()
+        process.launchPath = "/usr/bin/env"
+        process.arguments = ["tail", "-f", "/Users/hiroseyuudai/develop/oss/Ocha/Sources/ocha/main.swift"]
+        process.standardInput = writableStream.filehandle
+        process.standardOutput = readableStream.filehandle
+        process.terminationHandler = { process in
+            guard
+                let pipe = process.standardOutput as? Pipe,
+                let handle = Optional(pipe.fileHandleForReading)
+                else {
+                    return
+            }
+            
+            let data = handle.readDataToEndOfFile()
+            
+            DispatchQueue.main.async {
+                print("data: \(data)")
+                handle.closeFile()
+                pipe.fileHandleForReading.readabilityHandler = nil
+            }
+        }
+        
+        return process
+    }()
     
-    let data = handle.readDataToEndOfFile()
-    
-    DispatchQueue.main.async {
-        print("data: \(data)")
-        handle.closeFile()
-        pipe.fileHandleForReading.readabilityHandler = nil
+    func launch() {
+        process.launch()
+        process.waitUntilExit()
     }
 }
 
+//Container().launch()
 
-process.launch()
-process.waitUntilExit()
+RunLoop.main.run()
+print("Process End")
+
+
+

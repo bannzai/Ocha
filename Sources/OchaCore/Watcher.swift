@@ -39,7 +39,7 @@ public class Watcher {
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
-        FSEventStreamScheduleWithRunLoop(stream, RunLoop.current.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
+        FSEventStreamScheduleWithRunLoop(stream, RunLoop.main.getCFRunLoop(), CFRunLoopMode.defaultMode.rawValue)
         let queue: DispatchQueue = .global()
         FSEventStreamSetDispatchQueue(stream, queue)
         FSEventStreamStart(stream)
