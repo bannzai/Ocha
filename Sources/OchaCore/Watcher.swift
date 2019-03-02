@@ -18,7 +18,14 @@ public class Presenter: NSObject, NSFilePresenter {
         self.presentedItemURL = presentedItemURL
     }
     
+    public func savePresentedItemChanges(completionHandler: @escaping (Error?) -> Void) {
+        callback?(presentedItemURL!)
+        print(#function)
+        completionHandler(nil)
+    }
+    
     public func presentedItemDidGain(_ version: NSFileVersion) {
+        print(#function)
         print(version)
     }
 }
