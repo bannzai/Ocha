@@ -10,7 +10,19 @@ import Foundation
 public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
-    private var stream: FSEventStreamRef!
+    private lazy var context = FSEventStreamContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
+    private lazy var stream: FSEventStreamRef = {
+        let stream = FSEventStreamCreate(
+            kCFAllocatorDefault,
+            _callback,
+            &context,
+            paths as CFArray,
+            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+            0,
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+            )!
+        return stream
+    }()
     
     private var _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
         guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String] else {
@@ -29,17 +41,6 @@ public class Watcher {
     
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
-        var info = self
-        var context = FSEventStreamContext(version: 0, info: &info, retain: nil, release: nil, copyDescription: nil)
-        stream = FSEventStreamCreate(
-            kCFAllocatorDefault,
-            _callback,
-            &context,
-            paths as CFArray,
-            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-            0,
-            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
-            )!
         self.callback = callback
         FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
         FSEventStreamStart(stream)
