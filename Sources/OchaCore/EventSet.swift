@@ -113,13 +113,13 @@ extension EventSet: CaseIterable {
 }
 
 extension EventSet: CustomDebugStringConvertible {
-    public var debugDescription: String {
+    func eachOptionDebugDescription(option: EventSet) -> String {
         if #available(OSX 10.13, *) {
-            if case .itemCloned = self {
+            if case .itemCloned = option {
                 return "itemCloned"
             }
         }
-        switch self {
+        switch option {
         case .none: return "none"
         case .mustScanSubDirs: return "mustScanSubDirs"
         case .userDropped: return "userDropped"
@@ -144,8 +144,17 @@ extension EventSet: CustomDebugStringConvertible {
         case .itemIsHardlink: return "itemIsHardlink"
         case .itemIsLastHardlink: return "itemIsLastHardlink"
         case _:
-            return "Unknown"
+            return "Unknown option: \(option.rawValue)"
         }
+    }
+    
+    public var debugDescription: String {
+        return EventSet
+            .allCases
+            .filter { $0 != .none } // none is usually contains...
+            .filter { self.contains($0) }
+            .map { eachOptionDebugDescription(option: $0) }
+            .joined(separator: ", ")
     }
 }
 
