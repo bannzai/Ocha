@@ -22,7 +22,7 @@ let package = Package(
             dependencies: ["OchaCore"]),
         .target(
             name: "OchaCore",
-            dependencies: []),
+            dependencies: ["SwiftShell"]),
         .testTarget(
             name: "OchaCoreTests",
             dependencies: ["OchaCore"]),
