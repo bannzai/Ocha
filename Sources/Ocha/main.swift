@@ -23,9 +23,12 @@ let watcher = Watcher(paths: [file])
 watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
+    if events.isAddedFileInXcodeEvent() {
+        print("xcode added: \(events.extractAddedFileWhenAddedFromXcode())")
+    }
     events.forEach { event in
         print("------- path: \(event.path) --------")
-        main.run(bash: "cat \(event.path)")
+        print("cat: " + main.run(bash: "cat \(event.path)").stdout)
         EventSet.allCases.forEach { set in
             print("\(set): \(event.flag.contains(set))")
         }

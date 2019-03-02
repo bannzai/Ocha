@@ -35,10 +35,15 @@ extension FileEvent {
         }
         """
     }
+    
+    public override var description: String {
+        return debugDescription
+    }
 }
 
+// MARK: - Specify Xcode event
 extension Array where Element == FileEvent {
-    func isAddedFileInXcodeEvent() -> Bool {
+    public func isAddedFileInXcodeEvent() -> Bool {
         guard count == 2 else {
             return false
         }
@@ -57,5 +62,10 @@ extension Array where Element == FileEvent {
         }
         
         return true
+    }
+    
+    public func extractAddedFileWhenAddedFromXcode() -> FileEvent {
+        assert(isAddedFileInXcodeEvent())
+        return self[1]
     }
 }
