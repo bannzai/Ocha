@@ -10,12 +10,12 @@ import Foundation
 public final class FileEvent : NSObject {
     public var id: UInt64
     public var flag: UInt32
-    public var path: Pathable
+    public var path: String
     
     public init(
         id: UInt64,
         flag: UInt32,
-        path: Pathable
+        path: String
         ) {
         self.id = id
         self.flag = flag
