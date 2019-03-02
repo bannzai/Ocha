@@ -8,8 +8,6 @@
 import Foundation
 
 public class Watcher {
-    public typealias CallBack = ([FileEvent]) -> Void
-    
     private var pointer: UnsafeMutableRawPointer {
         return UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque())
     }
@@ -45,6 +43,7 @@ public class Watcher {
         self.paths = paths.map { $0.watchingPath() }
     }
     
+    public typealias CallBack = ([FileEvent]) -> Void
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
