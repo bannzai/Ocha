@@ -23,9 +23,9 @@ watcher.start { (events) in
     print("Yeaaaaaaaaaaaaaaaaaaa!")
     print(events)
     events.forEach { event in
-        print("itemIsFile: \(event.flag.contains(.itemIsFile))")
-        print("itemRenamed: \(event.flag.contains(.itemRenamed))")
-        print("historyDone: \(event.flag.contains(.historyDone))")
+        EventSet.allCases.forEach { set in
+            print("\(set): \(event.flag.contains(set))")
+        }
     }
 }
 
