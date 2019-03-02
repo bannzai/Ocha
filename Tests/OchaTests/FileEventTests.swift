@@ -1,12 +1,12 @@
 //
 //  FileEventTests.swift
-//  OchaCoreTests
+//  OchaTests
 //
 //  Created by Yudai.Hirose on 2019/03/02.
 //
 
 import XCTest
-@testable import OchaCore
+@testable import Ocha
 
 class FileEventTests: XCTestCase {
     func testExample() {
