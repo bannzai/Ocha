@@ -33,12 +33,11 @@ public class Watcher {
         }
         if numEvents > 0 {
             let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
-            print(type(of: watcher))
             watcher.callback?(fileEvents)
         }
     }
     
-    private var paths: [String]
+    private let paths: [String]
     public init(paths: [String]) {
         self.paths = paths
     }

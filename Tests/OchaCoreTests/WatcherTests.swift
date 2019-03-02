@@ -8,14 +8,11 @@
 import XCTest
 @testable import OchaCore
 
-private let url = URL(fileURLWithPath: TestFile.file())
 private let lineBreak = "\n"
 
 class WatcherTests: XCTestCase {
 
-    override func setUp() {
-    }
-
+    private let url = TestFile.file()
     func testConfirmUtilityFunction() throws {
         let utility = Utility()
         let watcher = Watcher(paths: [url])
@@ -28,7 +25,10 @@ class WatcherTests: XCTestCase {
         
         try utility.write(try utility.read() + " ")
         
-        wait(for: [ext], timeout: 0.1)
+        wait(for: [ext], timeout: 1)
+        
+        watcher.stop()
+        watcher.release()
     }
     
     func testPerformanceExample() {
@@ -40,7 +40,7 @@ class WatcherTests: XCTestCase {
 }
 
 class Utility: XCTestCase {
-
+    private let url = URL(fileURLWithPath: TestFile.file())
     func read() throws -> String {
         return try String(contentsOf: url)
     }
