@@ -10,7 +10,9 @@ import Foundation
 public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
-    private lazy var pointer: UnsafeMutableRawPointer = UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque())
+    private var pointer: UnsafeMutableRawPointer {
+        return UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque())
+    }
     private lazy var context = FSEventStreamContext(version: 0, info: pointer, retain: nil, release: nil, copyDescription: nil)
     private lazy var stream: FSEventStreamRef = {
         let stream = FSEventStreamCreate(
@@ -33,6 +35,7 @@ public class Watcher {
         }
         if numEvents > 0 {
             let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
+            fileEvents.forEach { print("$0: \($0)") }
             watcher.callback?(fileEvents)
         }
     }
