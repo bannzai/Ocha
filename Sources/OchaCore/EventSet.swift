@@ -129,6 +129,9 @@ extension EventSet: CustomDebugStringConvertible {
     }
     
     public var debugDescription: String {
+        if self == .none {
+            return eachOptionDebugDescription(option: .none)
+        }
         return EventSet
             .allCases
             .filter { $0 != .none } // none is usually contains...
