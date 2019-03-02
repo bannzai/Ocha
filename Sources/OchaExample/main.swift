@@ -1,5 +1,5 @@
 import Foundation
-import OchaCore
+import Ocha
 import SwiftShell
 import PathKit
 

@@ -1,6 +1,6 @@
 //
 //  Entrypoint.swift
-//  OchaCore
+//  Ocha
 //
 //  Created by Yudai.Hirose on 2019/03/01.
 //

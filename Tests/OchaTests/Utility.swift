@@ -1,13 +1,13 @@
 //
 //  Utility.swift
-//  OchaCoreTests
+//  OchaTests
 //
 //  Created by Yudai.Hirose on 2019/03/02.
 //
 
 import Foundation
 import XCTest
-@testable import OchaCore
+@testable import Ocha
 
 let lineBreak = "\n"
 class Utility {

@@ -1,6 +1,6 @@
 //
 //  StreamCreateFlags.swift
-//  OchaCoreTests
+//  OchaTests
 //
 //  Created by Yudai.Hirose on 2019/03/01.
 //

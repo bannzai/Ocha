@@ -1,12 +1,12 @@
 //
 //  WatcherTests.swift
-//  OchaCoreTests
+//  OchaTests
 //
 //  Created by Yudai.Hirose on 2019/03/01.
 //
 
 import XCTest
-@testable import OchaCore
+@testable import Ocha
 
 class WatcherTests: XCTestCase {
     private let url = TestFile.file()
