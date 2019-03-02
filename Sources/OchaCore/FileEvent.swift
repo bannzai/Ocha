@@ -52,12 +52,12 @@ extension Array where Element == FileEvent {
         if !temporaryFile.path.contains(".dat.") {
             return false
         }
-        if !temporaryFile.flag.contains([.itemCreated, .itemRenamed, .itemModified, .itemXattrMod, .itemIsFile]) {
+        if !temporaryFile.flag.contains(.xcodeFileAddedFirstEventSet) {
             return false
         }
 
         let renamedFromTemporaryFile = self[1]
-        if !renamedFromTemporaryFile.flag.contains([.itemRenamed, .itemIsFile]) {
+        if !renamedFromTemporaryFile.flag.contains(.xcodeFileAddedSecondEventSet) {
             return false
         }
         
