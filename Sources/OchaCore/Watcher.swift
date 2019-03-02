@@ -10,9 +10,8 @@ import Foundation
 public class Watcher {
     public typealias CallBack = ([FileEvent]) -> Void
     
-    private let paths: [String]
+    private lazy var context = FSEventStreamContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
     private lazy var stream: FSEventStreamRef = {
-        var context = FSEventStreamContext(version: 0, info: UnsafeMutableRawPointer(mutating: Unmanaged.passUnretained(self).toOpaque()), retain: nil, release: nil, copyDescription: nil)
         let stream = FSEventStreamCreate(
             kCFAllocatorDefault,
             _callback,
@@ -26,22 +25,24 @@ public class Watcher {
     }()
     
     private var _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
-        let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
-        let paths = unsafeBitCast(eventPaths, to: [String].self)
-        let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
-        watcher.callback?(fileEvents)
+        guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String] else {
+            assertionFailure()
+            return
+        }
+        if numEvents > 0 {
+            let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: eventFlags[i], path: paths[i]) }
+            Watcher.instance.callback?(fileEvents)
+        }
     }
     
-    public init(paths: [Pathable]) {
-        self.paths = paths.map { $0.pathForWatching().absoluteString }
-    }
+    public var paths: [String] = []
+    public static let instance = Watcher()
+    private init() { }
     
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
         FSEventStreamScheduleWithRunLoop(stream, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
-//        let queue: DispatchQueue = .global()
-//        FSEventStreamSetDispatchQueue(stream, queue)
         FSEventStreamStart(stream)
     }
     
