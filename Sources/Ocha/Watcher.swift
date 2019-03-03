@@ -25,6 +25,11 @@ public class Watcher {
         return stream
     }()
     
+    deinit {
+        stop()
+        release()
+    }
+
     private var _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
         let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
         guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String] else {
