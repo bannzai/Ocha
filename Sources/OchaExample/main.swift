@@ -21,7 +21,7 @@ func ragnarok() {
         if content == formatted {
             return
         }
-        try ragnarok.exec()
+        try formatted.write(to: URL(fileURLWithPath: pathString), atomically: true, encoding: .utf8)
     } catch {
         print("[ERROR]: \(error.localizedDescription)")
         exit(1)
