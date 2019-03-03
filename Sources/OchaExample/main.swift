@@ -10,7 +10,7 @@ let path = Path(#file)
 let pathString = path.absolute().string
 
 func hoge(fuga: String, piyo: Int) {
-    
+
 }
 
 func ragnarok() {
@@ -21,7 +21,11 @@ func ragnarok() {
         if content == formatted {
             return
         }
-        try ragnarok.exec()
+        // FIXME:  How to share file resouce practice when use xcode editor.
+        // Not immediately adapt for file changes after edited file.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            try formatted.write(to: URL(fileURLWithPath: pathString), atomically: true, encoding: .utf8)
+        }
     } catch {
         print("[ERROR]: \(error.localizedDescription)")
         exit(1)
