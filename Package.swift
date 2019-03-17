@@ -36,7 +36,7 @@ enum ExampleType: String, CaseIterable {
     }
   }
 
-  var targetDependency: String {
+  var targetDependency: PackageDescription.Target.Dependency {
     switch self {
     case .Ragnarok:
       return "RagnarokCore"
