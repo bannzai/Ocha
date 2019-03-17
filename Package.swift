@@ -47,15 +47,15 @@ enum ExampleType: String, CaseIterable {
     }
   }
 
-  var targetDependencies: [String] {
+  var targetDependencies: [PackageDescription.Target.Dependency] {
     return exampleDependencies + [targetDependency]
   }
 }
 
 struct ExampleElement {
   static let products: [Product] = ExampleType.allCases.map { .executable(name: $0.name, targets: [$0.name]) }
-  static let dependencies: [Package.Dependency] = ExampleElement.allCases.map { .package(url: $0.packageName, from: $0.version) }
-  static let targets: [Target] = ExampleElement.allCases.map { .target(name: $0.name, dependencies: $0.targetDependencies) }
+  static let dependencies: [Package.Dependency] = ExampleType.allCases.map { .package(url: $0.packageName, from: $0.version) }
+  static let targets: [Target] = ExampleType.allCases.map { .target(name: $0.name, dependencies: $0.targetDependencies) }
 }
 
 let package = Package(
