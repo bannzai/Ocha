@@ -4,7 +4,7 @@
 import PackageDescription
 
 
-let exampleDependencies = ["Ocha", "SwiftShell", "PathKit"]
+let exampleDependencies: [PackageDescription.Target.Dependency] = ["Ocha", "SwiftShell", "PathKit"]
 enum ExampleType: String, CaseIterable { 
   case Ragnarok
   case IBOutletReWriter
