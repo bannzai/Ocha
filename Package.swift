@@ -7,7 +7,6 @@ import PackageDescription
 let exampleDependencies: [PackageDescription.Target.Dependency] = ["Ocha", "SwiftShell", "PathKit"]
 enum ExampleType: String, CaseIterable { 
   case Ragnarok
-  case IBOutletReWriter
   case SwiftLint
 
   var name: String {
@@ -18,8 +17,6 @@ enum ExampleType: String, CaseIterable {
     switch self {
     case .Ragnarok:
       return "https://github.com/bannzai/Ragnarok.git"
-    case .IBOutletReWriter:
-      return "https://github.com/kitasuke/IBOutletRewriter.git"
     case .SwiftLint:
       return "https://github.com/realm/SwiftLint.git"
     }
@@ -29,8 +26,6 @@ enum ExampleType: String, CaseIterable {
     switch self {
     case .Ragnarok:
       return Version(1, 0, 2)
-    case .IBOutletReWriter:
-      return Version(0, 1, 0)
     case .SwiftLint:
       return Version(0, 31, 0)
     }
@@ -40,8 +35,6 @@ enum ExampleType: String, CaseIterable {
     switch self {
     case .Ragnarok:
       return "RagnarokCore"
-    case .IBOutletReWriter:
-      return "IBOutletRewriterCore"
     case .SwiftLint:
       return "SwiftLintFramework"
     }
