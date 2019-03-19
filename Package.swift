@@ -14,7 +14,7 @@ enum ExampleType: String, CaseIterable {
     return rawValue + "Example" 
   }
 
-  var packageName: String {
+  var packageURL: String {
     switch self {
     case .Ragnarok:
       return "https://github.com/bannzai/Ragnarok.git"
@@ -50,21 +50,27 @@ enum ExampleType: String, CaseIterable {
   var targetDependencies: [PackageDescription.Target.Dependency] {
     return exampleDependencies + [targetDependency]
   }
-}
 
-struct ExampleElement {
-  static let products: [Product] = ExampleType.allCases.map { .executable(name: $0.name, targets: [$0.name]) }
-  static let dependencies: [Package.Dependency] = ExampleType.allCases.map { .package(url: $0.packageName, from: $0.version) }
-  static let targets: [Target] = ExampleType.allCases.map { .target(name: $0.name, dependencies: $0.targetDependencies) }
+  var product: Product {
+    return .executable(name: name, targets: [name])
+  }
+
+  var dependency: Package.Dependency {
+    return .package(url: packageURL, from: version) 
+  }
+
+  var target: Target {
+    return .target(name: name, dependencies: targetDependencies)
+  }
 }
 
 let package = Package(
     name: "Ocha",
-    products: [.library(name: "Ocha", targets: ["Ocha"])] + ExampleElement.products ,
+    products: [.library(name: "Ocha", targets: ["Ocha"])] + ExampleType.allCases.map { $0.product },
     dependencies: [
         .package(url: "https://github.com/kareman/SwiftShell.git", from: Version(4, 1, 2)),
         .package(url: "https://github.com/kylef/PathKit.git", from: Version(0, 9, 2)),
-    ] + ExampleElement.dependencies,
+    ] + ExampleType.allCases.map { $0.dependency },
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
@@ -74,6 +80,6 @@ let package = Package(
         .testTarget(
             name: "OchaTests",
             dependencies: ["Ocha"]),
-    ] + ExampleElement.targets
+    ] + ExampleType.allCases.map { $0.target }
 )
 
