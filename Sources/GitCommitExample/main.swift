@@ -2,7 +2,6 @@ import Foundation
 import Ocha
 import SwiftShell
 import PathKit
-import SwiftLintFramework
 
 print("You can confirm `Ocha.GitCommitExample` when removed file. Try rm -rf Package.swift and conform git history(e.g git show. You can got new commit for it message of 'Delete file [Package.swift] path'. ")
 
