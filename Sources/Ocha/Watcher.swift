@@ -42,7 +42,6 @@ public class Watcher {
             if watcher.isIgnoredDotPrefix {
                 fileEvents = fileEvents.filter { !$0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
             }
-            fileEvents.forEach { print("$0: \($0)") }
             watcher.callback?(fileEvents)
         }
     }

@@ -18,10 +18,6 @@ let pathString = path.absolute().string
 let watcher = Watcher(paths: [pathString])
 main.currentdirectory = pathString
 watcher.start { (events) in
-    print(events)
-    events.forEach({ (event) in
-        print("event: \(event)")
-    })
     let removedEventPaths = events
         .filter { $0.flag.contains(.removedFile) || $0.flag.contains(.removedDirectory) }
         .map { $0.path }
