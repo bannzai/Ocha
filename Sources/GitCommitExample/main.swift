@@ -22,7 +22,10 @@ watcher.start { (events) in
     events.forEach({ (event) in
         print("event: \(event)")
     })
-    Set(events.map { $0.path }).forEach { path in
+    let paths = events
+        .filter { $0.flag.contains(.removedFile) || $0.flag.contains(.removedDirectory) }
+        .map { $0.path }
+    Set(paths).forEach { path in
         main.run(bash: "git add \(path)")
         main.run(bash: "git commit -m \"Delete file \(path)\"")
     }
