@@ -19,6 +19,9 @@ let watcher = Watcher(paths: [pathString])
 main.currentdirectory = pathString
 watcher.start { (events) in
     print(events)
+    events.forEach({ (event) in
+        print("event: \(event)")
+    })
     Set(events.map { $0.path }).forEach { path in
         main.run(bash: "git add \(path)")
         main.run(bash: "git commit -m \"Delete file \(path)\"")
