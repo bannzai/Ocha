@@ -39,7 +39,9 @@ public class Watcher {
         if numEvents > 0 {
             var fileEvents: [FileEvent] = (0..<numEvents)
                 .map { i in FileEvent(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
-                .filter { !watcher.ignoredDotPrefix || $0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
+            if watcher.ignoredDotPrefix {
+                fileEvents = fileEvents.filter { !$0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
+            }
             fileEvents.forEach { print("$0: \($0)") }
             watcher.callback?(fileEvents)
         }
