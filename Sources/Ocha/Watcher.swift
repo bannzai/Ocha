@@ -37,15 +37,19 @@ public class Watcher {
             return
         }
         if numEvents > 0 {
-            let fileEvents = (0..<numEvents).map { i in FileEvent(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
+            var fileEvents: [FileEvent] = (0..<numEvents)
+                .map { i in FileEvent(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
+                .filter { !watcher.ignoredDotPrefix || $0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
             fileEvents.forEach { print("$0: \($0)") }
             watcher.callback?(fileEvents)
         }
     }
     
     private let paths: [String]
-    public init(paths: [WatchingPathable]) {
+    private let ignoredDotPrefix: Bool
+    public init(paths: [WatchingPathable], ignoredDotPrefix: Bool = true) {
         self.paths = paths.map { $0.watchingPath() }
+        self.ignoredDotPrefix = ignoredDotPrefix
     }
     
     public typealias CallBack = ([FileEvent]) -> Void
