@@ -3,18 +3,45 @@
 
 import PackageDescription
 
+
+let exampleDependencies: [PackageDescription.Target.Dependency] = ["Ocha", "SwiftShell", "PathKit"]
+enum ExampleType: String, CaseIterable { 
+  case Ragnarok
+  case GitCommit
+
+  var name: String {
+    return rawValue + "Example" 
+  }
+
+  var targetDependency: PackageDescription.Target.Dependency? {
+    switch self {
+    case .Ragnarok:
+      return "RagnarokCore"
+    case .GitCommit:
+      return nil
+    }
+  }
+
+  var targetDependencies: [PackageDescription.Target.Dependency] {
+    return exampleDependencies + [targetDependency].flatMap{ $0 }
+  }
+
+  var product: Product {
+    return .executable(name: name, targets: [name])
+  }
+
+  var target: Target {
+    return .target(name: name, dependencies: targetDependencies)
+  }
+}
+
 let package = Package(
     name: "Ocha",
-    products: [
-        .library(name: "Ocha", targets: ["Ocha"]),
-        .executable(name: "OchaExample", targets: ["OchaExample"]),
-        ],
+    products: [.library(name: "Ocha", targets: ["Ocha"])] + ExampleType.allCases.map { $0.product },
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/kareman/SwiftShell.git", from: Version(4, 1, 2)),
         .package(url: "https://github.com/kylef/PathKit.git", from: Version(0, 9, 2)),
-        .package(url: "https://github.com/bannzai/Ragnarok.git", from: Version(1, 0, 2)),
+        .package(url: "https://github.com/bannzai/Ragnarok.git", from: Version(1, 0, 2)) 
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -22,12 +49,9 @@ let package = Package(
         .target(
             name: "Ocha",
             dependencies: []),
-        .target(
-            name: "OchaExample",
-            dependencies: ["Ocha", "SwiftShell", "PathKit", "RagnarokCore"]),
         .testTarget(
             name: "OchaTests",
             dependencies: ["Ocha"]),
-    ]
+    ] + ExampleType.allCases.map { $0.target }
 )
 
