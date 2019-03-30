@@ -25,11 +25,13 @@ public class Watcher {
         return stream
     }()
     
-    deinit {
-        stop()
-        release()
+    private let paths: [String]
+    private let isIgnoredDotPrefix: Bool
+    public init(paths: [WatchingPathable], isIgnoredDotPrefix: Bool = true) {
+        self.paths = paths.map { $0.watchingPath() }
+        self.isIgnoredDotPrefix = isIgnoredDotPrefix
     }
-
+    
     private var _callback: FSEventStreamCallback = { (stream, contextInfo, numEvents, eventPaths, eventFlags, eventIds) in
         let watcher = unsafeBitCast(contextInfo, to: Watcher.self)
         guard let paths = unsafeBitCast(eventPaths, to: NSArray.self) as? [String] else {
@@ -45,14 +47,6 @@ public class Watcher {
             watcher.callback?(fileEvents)
         }
     }
-    
-    private let paths: [String]
-    private let isIgnoredDotPrefix: Bool
-    public init(paths: [WatchingPathable], isIgnoredDotPrefix: Bool = true) {
-        self.paths = paths.map { $0.watchingPath() }
-        self.isIgnoredDotPrefix = isIgnoredDotPrefix
-    }
-    
     public typealias CallBack = ([FileEvent]) -> Void
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
@@ -71,5 +65,10 @@ public class Watcher {
     
     public func resume() {
         FSEventStreamStart(stream)
+    }
+    
+    deinit {
+        stop()
+        release()
     }
 }
