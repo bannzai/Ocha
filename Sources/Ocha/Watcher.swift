@@ -20,7 +20,7 @@ public class Watcher {
             paths as CFArray,
             FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
             0,
-            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagEvents)
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
             )!
         return stream
     }()
