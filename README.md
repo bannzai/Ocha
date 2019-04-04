@@ -1,12 +1,8 @@
-<div align="center" style="margin-bottom:200px;" >
-  <img width="70%" src="logo/ocha_logo.png" />
-</div>
+[![Ocha](logo/ocha_logo.png)](logo/ocha_logo.png)
 
-<p align="center">
-  <a href="https://developer.apple.com/swift"><img alt="Swift4" src="https://img.shields.io/badge/language-swift4-blue.svg?style=flat"/></a>
-  <a href="https://developer.apple.com/swift/"><img alt="Platform" src="https://img.shields.io/badge/platform-macOS-green.svg"/></a>
-  <a href="https://github.com/bannzai/Conv/blob/master/LICENSE.txt"><img alt="Lincense" src="http://img.shields.io/badge/license-MIT-000000.svg?style=flat"/></a>
-</p>
+[![swift4.2](https://img.shields.io/badge/language-swift4.2-blue.svg?style=flat)](https://developer.apple.com/swift)
+[![Platform](https://img.shields.io/badge/platform-macOS-green.svg)](https://img.shields.io/badge/platform-macOS-green.svg)
+[![License](http://img.shields.io/badge/license-MIT-000000.svg?style=)](https://github.com/bannzai/Ocha/blob/master/LICENSE)
 
 # Ocha
 `Ocha` can be listen to the file system change notifications and raises events when a directory, or file in a directory, changes.
