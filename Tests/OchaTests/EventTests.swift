@@ -1,5 +1,5 @@
 //
-//  FileEventTests.swift
+//  EventTests.swift
 //  OchaTests
 //
 //  Created by Yudai.Hirose on 2019/03/02.
@@ -8,23 +8,23 @@
 import XCTest
 @testable import Ocha
 
-class FileEventTests: XCTestCase {
+class EventTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 }
 
-class FileEventArrayTests: XCTestCase {
+class EventArrayTests: XCTestCase {
     func testIsAddedFileInXcodeEvent() {
-        typealias FileEventFactory = (EventSet) -> FileEvent
+        typealias EventFactory = (EventSet) -> Event
         XCTContext.runActivity(named: "When first element has '.dat.' file") { (_) in
-            let firstElementFactory: FileEventFactory = { eventSet in
-                return FileEvent(id: 1, flag: eventSet.rawValue, path: "/Users/bannzai/development/.dat.hoge.fuga")
+            let firstElementFactory: EventFactory = { eventSet in
+                return Event(id: 1, flag: eventSet.rawValue, path: "/Users/bannzai/development/.dat.hoge.fuga")
             }
             
-            let secondElementFactory: FileEventFactory = { eventSet in
-                return FileEvent(id: 2, flag: eventSet.rawValue, path: "/Users/bannzai/development/piyo.swift")
+            let secondElementFactory: EventFactory = { eventSet in
+                return Event(id: 2, flag: eventSet.rawValue, path: "/Users/bannzai/development/piyo.swift")
             }
             
             XCTContext.runActivity(named: "When first element has xcode temporary file events", block: { (_)  in

@@ -1,5 +1,5 @@
 //
-//  FileEvent.swift
+//  Event.swift
 //  Ocha
 //
 //  Created by Yudai.Hirose on 2019/03/01.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class FileEvent: NSObject {
+public final class Event: NSObject {
     public var id: UInt64
     public var flag: EventSet
     public var path: String
@@ -23,10 +23,10 @@ public final class FileEvent: NSObject {
     }
 }
 
-extension FileEvent {
+extension Event {
     public override var debugDescription: String {
         return """
-        FileEvent {
+        Event {
             type: \(type(of: self))
             address: \(Unmanaged.passUnretained(self).toOpaque())
             id: \(id),
@@ -42,7 +42,7 @@ extension FileEvent {
 }
 
 // MARK: - Specify Xcode event
-extension Array where Element == FileEvent {
+extension Array where Element == Event {
     public func isAddedFileInXcodeEvent() -> Bool {
         guard count == 2 else {
             return false
@@ -64,7 +64,7 @@ extension Array where Element == FileEvent {
         return true
     }
     
-    public func extractAddedFileWhenAddedFromXcode() -> FileEvent {
+    public func extractAddedFileWhenAddedFromXcode() -> Event {
         assert(isAddedFileInXcodeEvent())
         return self[1]
     }
