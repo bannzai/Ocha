@@ -20,7 +20,7 @@ public class Watcher {
             paths as CFArray,
             FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
             0,
-            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagEvents)
             )!
         return stream
     }()
@@ -39,15 +39,15 @@ public class Watcher {
             return
         }
         if numEvents > 0 {
-            var fileEvents: [FileEvent] = (0..<numEvents)
-                .map { i in FileEvent(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
+            var Events: [Event] = (0..<numEvents)
+                .map { i in Event(id: eventIds[i], flag: Int(eventFlags[i]), path: paths[i]) }
             if watcher.isIgnoredDotPrefix {
-                fileEvents = fileEvents.filter { !$0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
+                Events = Events.filter { !$0.path.components(separatedBy: "/").contains { $0.hasPrefix(".") } }
             }
-            watcher.callback?(fileEvents)
+            watcher.callback?(Events)
         }
     }
-    public typealias CallBack = ([FileEvent]) -> Void
+    public typealias CallBack = ([Event]) -> Void
     private var callback: CallBack?
     public func start(_ callback: @escaping CallBack) {
         self.callback = callback
