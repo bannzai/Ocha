@@ -5,19 +5,24 @@ import PackageDescription
 
 
 let exampleDependencies: [PackageDescription.Target.Dependency] = ["Ocha", "SwiftShell", "PathKit"]
-enum ExampleType: String, CaseIterable { 
-  case Ragnarok
-  case GitCommit
+enum ExampleType: CaseIterable {
+  case ragnarok
+  case gitCommit
 
   var name: String {
-    return rawValue + "Example" 
+    switch self {
+    case .ragnarok:
+      return "RagnarokExample"
+    case .gitCommit:
+      return "GitCommitExample"
+    }
   }
 
   var targetDependency: PackageDescription.Target.Dependency? {
     switch self {
-    case .Ragnarok:
+    case .ragnarok:
       return "RagnarokCore"
-    case .GitCommit:
+    case .gitCommit:
       return nil
     }
   }
