@@ -33,7 +33,7 @@ import Ocha
 import SwiftShell
 import PathKit
 
-let path: Path = .init(
+let path = Path(
     #file.components(separatedBy: "/")
         .dropLast() // main.swift
         .dropLast() // GitCommitExample
@@ -46,9 +46,9 @@ main.currentdirectory = pathString
 let watcher = Watcher(paths: [pathString])
 watcher.start { (events) in
     let removedEventPaths = events
-        .filter { $0.flag.contains(.removedFile) || $0.flag.contains(.removedDirectory) }
+        .filter { $0.flag.contains(.removedFile) }
         .map { $0.path }
-    Set(removedEventPaths).forEach { path in
+    removedEventPaths.forEach { path in
         main.run(bash: "git add \(path)")
         main.run(bash: "git commit -m \"Delete file \(path)\"")
     }
