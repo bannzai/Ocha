@@ -59,6 +59,15 @@ RunLoop.current.run()
 
 If you execute this swift code, you can confirm removed file git log. `$ git log -1` 
 
+## Try it easily
+
+You can easily try Ocha by editing the `Playground` target.
+
+1. Clone this repository with git or Download sources.
+2. Open `./Sources/Playground/main.swift` .
+3. Add monitored paths and processes.
+4. Run `swift run Playground` on Terminal.
+
 
 ## LICENSE
 [Ocha](https://github.com/bannzai/Ocha/) is released under the MIT license. See [LICENSE](https://github.com/bannzai/Ocha/blob/master/LICENSE.txt) for details.
