@@ -6,12 +6,9 @@ import PathKit
 print("You can try Ocha easily by editing this Playground. Let's add Path and processing to be monitored, then execute `swift run Playground` on Terminal.")
 
 // Set the monitoring target path.
-let path: Path? = nil
-
-guard let path = path else {
-  print("Please set the monitoring target path")
-  exit(1)
-}
+let path: Path = {
+  fatalError("Please set the monitoring target path")
+}()
 
 let pathString = path.absolute().string
 main.currentdirectory = pathString
