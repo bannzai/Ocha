@@ -8,6 +8,7 @@ let exampleDependencies: [PackageDescription.Target.Dependency] = ["Ocha", "Swif
 enum ExampleType: CaseIterable {
   case ragnarok
   case gitCommit
+  case playground
 
   var name: String {
     switch self {
@@ -15,6 +16,8 @@ enum ExampleType: CaseIterable {
       return "RagnarokExample"
     case .gitCommit:
       return "GitCommitExample"
+    case .playground:
+      return "Playground"
     }
   }
 
@@ -23,6 +26,8 @@ enum ExampleType: CaseIterable {
     case .ragnarok:
       return "RagnarokCore"
     case .gitCommit:
+      return nil
+    case .playground:
       return nil
     }
   }
