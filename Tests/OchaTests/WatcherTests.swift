@@ -17,7 +17,7 @@ class WatcherTests: XCTestCase {
 
         let ext = self.expectation(description: #function)
         watcher.start({ (events) in
-            XCTAssertEqual(events.count, 1)
+            XCTAssert(!events.isEmpty)
             ext.fulfill()
         })
         
